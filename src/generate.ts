@@ -1,14 +1,15 @@
+/**
+ * 生成
+ */
 import * as vscode from 'vscode';
 import { loadModuleData } from './utils';
-import {loadConfig,generateJSFiles, getAllwords, getExportExcelData, getImportExcel, readFileList, writeExcel } from "./utils/generate";
+import {loadConfig,generateJSFiles, getAllwords, getExportExcelData, getImportExcel, writeExcel } from "./utils/generate";
 
 export const generate=async (uri:any,context:vscode.ExtensionContext)=>{
     
     try {
         // 读取配置文件
         const config:any=loadConfig(uri,context);
-        console.log(config);
-       
 		// 读取mainlang
         const mainLang: any = await loadModuleData(config?.mainLangPath,context.extensionPath);
         // 获取所有单词
@@ -29,7 +30,6 @@ export const generate=async (uri:any,context:vscode.ExtensionContext)=>{
                 }),
             ];
         }
-        console.log(importExcelData);
         // 生成I18N文件
         generateJSFiles(mainLang, importExcelData, config.outLang);
         // 导出excel
