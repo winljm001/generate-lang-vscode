@@ -1,3 +1,7 @@
+import * as vscode from 'vscode';
+import * as path from 'path';
+import {Log} from './log';
+
 const xlsx = require('node-xlsx');
 const fs = require('fs');
 const prettier = require('prettier');
@@ -34,11 +38,11 @@ export const readFileList = (fullPath: any) => {
     }
     // const res = fs.readFileSync(fullPath,"utf-8");
     console.log('fullPath',fullPath);
-    // const res= require(fullPath);
+    const res= require(fullPath);
     // console.log(res);
-    import(fullPath).then((res) => {
-      resolve(res);
-    });
+    resolve(res);
+    // import(fullPath).then((res) => {
+    // });
   });
 };
 
@@ -97,12 +101,15 @@ export const getExportExcelData = (data: any) => {
 
 // 导出excel
 export const writeExcel = (name: any, data: any) => {
+  
+  const workspacePath=getWorkspacePath();
+  const distPath = `${workspacePath}/excel-dist`;
   try {
-    if (!fs.existsSync("./excel")) {
-      fs.mkdirSync("./excel");
+    if (!fs.existsSync(distPath)) {
+      fs.mkdirSync(distPath);
     }
     const buffer: any = xlsx.build(data);
-    fs.writeFileSync("./excel/" + name + ".xlsx", buffer, { flag: "w" });
+    fs.writeFileSync(`${distPath}/` + name + ".xlsx", buffer, { flag: "w" });
   } catch (error) {
     console.log(error);
   }
@@ -121,6 +128,7 @@ const replaceLang = (obj: any, originData: any, parentKey = "") => {
       resObj[index] = replaceLang(item, originData, parentKey + "." + index);
     }
   }
+  console.log(resObj);
   return resObj;
 };
 // 多语言文件生成
@@ -139,14 +147,48 @@ export const generateJSFiles = (
 
 // 生成ts
 export const writeTs = (name: any, data: any) => {
+  const workspacePath=getWorkspacePath();
+  const distPath = `${workspacePath}/lang-dist`;
   try {
-    if (!fs.existsSync("./dist")) {
-      fs.mkdirSync("./dist");
+    if (!fs.existsSync(distPath)) {
+      fs.mkdirSync(distPath);
     }
     const scriptContent = `export default ${JSON.stringify(data)}`;
     const prettierContent = prettier.format(scriptContent, prettierOptions);
-    fs.writeFileSync("./dist/" + name + ".ts", prettierContent);
+    fs.writeFileSync(`${distPath}/` + name + ".ts", prettierContent);
   } catch (error) {
     console.log(error);
   }
 };
+
+const getWorkspacePath=()=>{
+  const workspaceFolders=vscode.workspace?.workspaceFolders;
+  let workspacePath='./';
+  if(workspaceFolders&&workspaceFolders?.length>0){
+    const {uri}= workspaceFolders[0];
+    workspacePath=uri?.fsPath;
+  }
+  return workspacePath;
+};
+// 加载配置文件
+
+export const loadConfig = (uri: any,context:vscode.ExtensionContext) => {
+  
+  try {
+    const langPath=uri?.fsPath;
+		const workspacePath=getWorkspacePath();
+		const CONFIG_PATH = path.normalize(path.join(workspacePath,'./generate-lang-config.json'));
+  
+
+    let config={"outLang":["en-US","th-TH","vi-VN"],"mainLangPath":langPath,"importExcel":"","outExcel":""};
+    if (!fs.existsSync(CONFIG_PATH)) {
+        fs.writeFileSync(CONFIG_PATH, JSON.stringify(config));
+    }else{
+      config=JSON.parse(fs.readFileSync(CONFIG_PATH));
+    }
+    return config;
+  } catch (error) {
+    Log.info(error);
+  }
+};
+

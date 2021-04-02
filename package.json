@@ -59,6 +59,7 @@
 	},
 	"dependencies": {
 		"node-xlsx": "^0.16.1",
-		"prettier": "^2.2.1"
+		"prettier": "^2.2.1",
+		"ts-node": "^9.1.1"
 	}
 }
