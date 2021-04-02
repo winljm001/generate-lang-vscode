@@ -7,6 +7,11 @@
 5. 当有翻译好的excel文件时，即可在 `generate-lang-config.json` 中配置excel路径
 6. 再次选择多语言生成，即可在lang-dist文件夹得到目标多语言
 
+
+# future
+
+[] 中文提取功能
+
 # 发布流程
 
 ```
@@ -17,3 +22,4 @@ vsce login winljm001
 vsce publish
 
 ```
+
