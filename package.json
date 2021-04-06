@@ -20,6 +20,10 @@
 			{
 				"command": "lalala-generate-lang.generateLang",
 				"title": "多语言生成"
+			},
+			{
+				"command": "lalala-generate-lang.extractLang",
+				"title": "提取多语言"
 			}
 		],
 		"menus": {
@@ -27,6 +31,12 @@
 				{
 					"when": "resourceLangId == javascript || resourceLangId == typescript",
 					"command": "lalala-generate-lang.generateLang",
+					"group": "navigation"
+				}
+			],
+			"editor/context": [
+				{
+					"command": "lalala-generate-lang.extractLang",
 					"group": "navigation"
 				}
 			]
