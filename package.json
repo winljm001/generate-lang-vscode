@@ -12,7 +12,8 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:lalala-generate-lang.generateLang"
+		"onCommand:lalala-generate-lang.generateLang",
+		"onCommand:lalala-generate-lang.extractLang"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
@@ -36,6 +37,7 @@
 			],
 			"editor/context": [
 				{
+					"when": "editorHasSelection",
 					"command": "lalala-generate-lang.extractLang",
 					"group": "navigation"
 				}

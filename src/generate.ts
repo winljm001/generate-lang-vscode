@@ -9,7 +9,7 @@ export const generate=async (uri:any,context:vscode.ExtensionContext)=>{
     
     try {
         // 读取配置文件
-        const config:any=loadConfig(uri,context);
+        const config:any=loadConfig(uri);
 		// 读取mainlang
         const mainLang: any = await loadModuleData(config?.mainLangPath,context.extensionPath);
         // 获取所有单词

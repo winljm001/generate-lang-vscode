@@ -1,4 +1,5 @@
 import { OutputChannel, window } from 'vscode';
+
 const EXT_NAME="lalala-i18N";
 
 export class Log {
@@ -19,7 +20,9 @@ export class Log {
   }
 
   static warn(message: string, prompt = false, intend = 0) {
-    if (prompt) {window.showWarningMessage(message);}
+    if (prompt) {
+      window.showWarningMessage(message);
+    }
     Log.info(`⚠ WARN: ${message}`, intend);
   }
 

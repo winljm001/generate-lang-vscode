@@ -170,9 +170,8 @@ const getWorkspacePath=()=>{
   }
   return workspacePath;
 };
-// 加载配置文件
-
-export const loadConfig = (uri: any,context:vscode.ExtensionContext) => {
+// 加载配置文件，如果没有就创建
+export const loadConfig = (uri: any) => {
   
   try {
     const langPath=uri?.fsPath;
@@ -183,6 +182,25 @@ export const loadConfig = (uri: any,context:vscode.ExtensionContext) => {
     let config={"outLang":["en-US","th-TH","vi-VN"],"mainLangPath":langPath,"importExcel":"","outExcel":""};
     if (!fs.existsSync(CONFIG_PATH)) {
         fs.writeFileSync(CONFIG_PATH, JSON.stringify(config));
+    }else{
+      config=JSON.parse(fs.readFileSync(CONFIG_PATH));
+    }
+    return config;
+  } catch (error) {
+    Log.info(error);
+  }
+};
+// 加载配置文件如果没有就报错
+export const getConfig = () => {
+  
+  try {
+		const workspacePath=getWorkspacePath();
+		const CONFIG_PATH = path.normalize(path.join(workspacePath,'./generate-lang-config.json'));
+  
+    let config=null;
+    
+    if (!fs.existsSync(CONFIG_PATH)) {
+      Log.warn("不存在generate-lang-config.json配置文件，请配置后重试",true);
     }else{
       config=JSON.parse(fs.readFileSync(CONFIG_PATH));
     }
