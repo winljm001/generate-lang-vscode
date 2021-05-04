@@ -2,7 +2,7 @@
   "name": "lalala-generate-lang",
   "displayName": "lalala-generate-lang",
   "description": "lalala-generate-lang",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "publisher": "winljm001",
   "engines": {
     "vscode": "^1.46.0"

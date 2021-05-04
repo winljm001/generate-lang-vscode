@@ -48,7 +48,10 @@ export const readFileList = (fullPath: any) => {
 // 读取Excel
 export const getImportExcel = (importExcelPath: string) => {
   try {
-    const workSheetsFromBuffer = xlsx.parse(fs.readFileSync(importExcelPath));
+    const workspacePath = getWorkspacePath();
+    const workSheetsFromBuffer = xlsx.parse(
+      fs.readFileSync(`${workspacePath}/${importExcelPath}`)
+    );
     const data = workSheetsFromBuffer[0]?.data;
     const resData: any[] = [];
     if (data.length > 1) {
