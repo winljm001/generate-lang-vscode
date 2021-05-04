@@ -40,7 +40,12 @@ export const generate = async (uri: any, context: vscode.ExtensionContext) => {
       ];
     }
     // 生成I18N文件
-    generateJSFiles(mainLang, importExcelData, config.outLang);
+    generateJSFiles(
+      mainLang,
+      importExcelData,
+      config.outLang,
+      config.outLangPath
+    );
     // 导出excel
     writeExcel("I18N", getExportExcelData(importExcelData));
   } catch (error) {

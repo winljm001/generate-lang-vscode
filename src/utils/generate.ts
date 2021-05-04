@@ -133,20 +133,25 @@ const replaceLang = (obj: any, originData: any, parentKey = "") => {
 export const generateJSFiles = (
   mainLang: any,
   importExcelData: any,
-  outLang: any
+  outLang: any,
+  outLangPath: any
 ) => {
   outLang?.forEach((v: any) => {
     const originData = importExcelData.find((item: any) => {
       return item?.name === v;
     })?.data;
-    writeTs(v, replaceLang(mainLang, originData));
+    writeTs(v, replaceLang(mainLang, originData), outLangPath);
   });
 };
 
 // 生成ts
-export const writeTs = (name: any, data: any) => {
+export const writeTs = (
+  name: any,
+  data: any,
+  outLangPath: any = "lang-dist"
+) => {
   const workspacePath = getWorkspacePath();
-  const distPath = `${workspacePath}/lang-dist`;
+  const distPath = `${workspacePath}/${outLangPath}`;
   try {
     if (!fs.existsSync(distPath)) {
       fs.mkdirSync(distPath);
@@ -183,6 +188,7 @@ export const loadConfig = (uri: any, context: vscode.ExtensionContext) => {
       outLang: ["en-US", "th-TH", "vi-VN"],
       mainLangPath: langPath,
       importExcel: "",
+      outLangPath: "lang-dist",
       outExcel: "",
     };
     if (!fs.existsSync(CONFIG_PATH)) {

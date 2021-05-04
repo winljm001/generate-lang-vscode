@@ -1,7 +1,7 @@
 {
-    "outLang": ["en-US"],
-    "mainLangPath": "",
-    "importExcel": "",
-    "outExcel": ""
+  "outLang": ["en-US"],
+  "mainLangPath": "",
+  "importExcel": "",
+  "outLangPath": "",
+  "outExcel": ""
 }
-  
