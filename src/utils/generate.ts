@@ -181,12 +181,11 @@ export const getWorkspacePath = () => {
 export const loadConfig = (uri: any, context: vscode.ExtensionContext) => {
   try {
     const workspacePath = getWorkspacePath();
-    const langPath = path.relative(workspacePath, uri?.fsPath);
-
-    const CONFIG_PATH = path.normalize(
-      path.join(workspacePath, "./generate-lang-config.json")
-    );
-
+    let langPath = path.relative(workspacePath, uri?.fsPath);
+    const CONFIG_PATH = path.join(workspacePath, "./generate-lang-config.json");
+    if(path.sep==='\\'){
+      langPath=langPath.split(path.sep).join('/');
+    }
     let config = {
       outLang: ["en-US", "th-TH", "vi-VN"],
       mainLangPath: langPath,
